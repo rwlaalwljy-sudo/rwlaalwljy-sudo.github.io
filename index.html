@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الخدمات الرقمية والمنتجات | حاسبة التسعير للرواد</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#f3f6f7;--panel:#fff;--ink:#12303a;--mute:#5d7580;--line:#d5e0e4;--teal:#0e7c7b;--amber:#f2a93b;--bad:#c8483b;--good:#1f8a5b}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1c21;--panel:#162a31;--ink:#e6f0f2;--mute:#9bb2ba;--line:#2a4550;--teal:#3fb6b4;--amber:#f2b552;--bad:#ef7b6e;--good:#4fc58d}}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Arabic",Tahoma,Arial,sans-serif;line-height:1.7;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 48px}
+header{padding:20px 0 24px}
+h1{font-size:clamp(1.6rem,4vw,2.4rem);margin:0 0 6px;font-weight:700;letter-spacing:0}
+header p{margin:0;color:var(--mute);max-width:60ch}
+.grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:20px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px}
+h2{font-size:1.1rem;margin:0 0 14px}
+label{display:block;font-size:.9rem;font-weight:500;margin:12px 0 4px}
+.hint{font-weight:400;color:var(--mute);font-size:.8rem}
+input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
+input:focus-visible,select:focus-visible{outline:2px solid var(--teal);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hero{border-inline-start:6px solid var(--amber);padding-inline-start:16px;margin-bottom:20px}
+.hero .lbl{color:var(--mute);font-size:.9rem}
+.hero .price{font-size:clamp(2.2rem,6vw,3.4rem);font-weight:700;line-height:1.2}
+.ladder-box{margin:6px 0 26px;direction:ltr}
+.ladder{position:relative;height:90px;margin:0 8px}
+.ladder .bar{position:absolute;top:42px;left:0;right:0;height:6px;border-radius:3px;background:var(--line)}
+.mk{position:absolute;transform:translateX(-50%);text-align:center;font-size:.72rem;white-space:nowrap;direction:rtl}
+.mk i{position:absolute;left:50%;width:2px;background:var(--ink);transform:translateX(-50%)}
+.mk.up{top:0}.mk.up i{top:30px;height:15px}
+.mk.dn{top:56px}.mk.dn i{top:-8px;height:12px}
+.mk.rec i{background:var(--amber);width:4px}
+.mk.rec b{color:var(--amber)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.kpi{border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.kpi span{display:block;font-size:.8rem;color:var(--mute)}
+.kpi strong{font-size:1.15rem}
+.pos{color:var(--good)}.neg{color:var(--bad)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{padding:8px 6px;text-align:start;border-bottom:1px solid var(--line)}
+.wrapx{overflow-x:auto}
+ul.recs{list-style:none;margin:0;padding:0}
+ul.recs li{padding:10px 12px;margin-bottom:8px;border-radius:8px;border:1px solid var(--line);border-inline-start:5px solid var(--teal)}
+ul.recs li.w{border-inline-start-color:var(--amber)}
+ul.recs li.b{border-inline-start-color:var(--bad)}
+ul.recs li.g{border-inline-start-color:var(--good)}
+.note{color:var(--mute);font-size:.8rem;margin-top:10px}
+.empty{color:var(--mute)}
+footer{margin-top:24px;color:var(--mute);font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>الخدمات الرقمية والمنتجات</h1>
+  <p>أدخل تكاليف منتجك أو خدمتك، واعرف السعر الأنسب وهامش الربح المتوقع وتوصيات تساعدك قبل الإطلاق.</p>
+</header>
+
+<div class="grid">
+  <section class="panel" aria-labelledby="in">
+    <h2 id="in">بيانات المنتج</h2>
+    <label for="name">اسم المنتج أو الخدمة</label>
+    <input id="name" type="text" placeholder="مثال: دورة تصميم أونلاين">
+    <div class="row">
+      <div>
+        <label for="type">النوع</label>
+        <select id="type"><option value="product">منتج</option><option value="service">خدمة</option></select>
+      </div>
+      <div>
+        <label for="cur">العملة</label>
+        <select id="cur"><option>$</option><option>₪</option><option>د.أ</option><option>ر.س</option><option>د.إ</option><option>€</option></select>
+      </div>
+    </div>
+    <label for="vc">التكلفة المتغيرة للوحدة <span class="hint">(مواد، شحن، عمولة دفع…)</span></label>
+    <input id="vc" type="number" min="0" step="any" value="10">
+    <label for="fc">التكاليف الثابتة الشهرية <span class="hint">(إيجار، أدوات، إعلانات…)</span></label>
+    <input id="fc" type="number" min="0" step="any" value="500">
+    <label for="un">المبيعات الشهرية المتوقعة (وحدات)</label>
+    <input id="un" type="number" min="1" step="1" value="100">
+    <label for="mg">هامش الربح المستهدف % <span class="hint">من سعر البيع</span></label>
+    <input id="mg" type="number" min="1" max="95" step="1" value="40">
+    <label for="cp">متوسط سعر المنافسين <span class="hint">(اختياري)</span></label>
+    <input id="cp" type="number" min="0" step="any" placeholder="اتركه فارغًا إن لم تعرفه">
+    <label for="wt">أعلى سعر يقبل العميل دفعه <span class="hint">(اختياري)</span></label>
+    <input id="wt" type="number" min="0" step="any" placeholder="من استبيان أو محادثات مع عملاء">
+  </section>
+
+  <section class="panel" aria-live="polite" id="out"></section>
+</div>
+<footer>هذه الحاسبة أداة مساعدة للتخطيط وتعتمد على الأرقام التي تدخلها. جرّب السعر مع عملاء حقيقيين قبل اعتماده.</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const ids=['name','type','cur','vc','fc','un','mg','cp','wt'];
+const num=id=>{const v=parseFloat($(id).value);return isFinite(v)?v:0};
+const f=(n,d=2)=>n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+function calc(){
+  const cur=$('cur').value, vc=num('vc'), fc=num('fc'), un=Math.max(num('un'),0),
+        mg=Math.min(num('mg'),95), cp=num('cp'), wt=num('wt');
+  const out=$('out');
+  if(un<1){out.innerHTML='<p class="empty">أدخل المبيعات المتوقعة (وحدة واحدة على الأقل) لبدء الحساب.</p>';return}
+
+  const unitCost=vc+fc/un;                 // التكلفة الكلية للوحدة
+  const costPlus=unitCost/(1-mg/100);      // السعر لتحقيق الهامش المستهدف
+  const parts=[[costPlus,.4]]; if(cp>0)parts.push([cp,.3]); if(wt>0)parts.push([wt,.3]);
+  const tw=parts.reduce((s,p)=>s+p[1],0);
+  let rec=parts.reduce((s,p)=>s+p[0]*p[1],0)/tw;
+  const floor=unitCost*1.05;
+  const floored=rec<floor; if(floored)rec=floor;
+
+  const scen=p=>{const m=(p-unitCost)/p*100, profit=(p-vc)*un-fc; return {p,m,profit}};
+  const s=scen(rec);
+  const contrib=rec-vc;
+  const be=contrib>0?Math.ceil(fc/contrib):Infinity;
+
+  // سلم الأسعار
+  const marks=[{k:'التعادل',v:unitCost,c:''},{k:'حسب الهامش',v:costPlus,c:''}];
+  if(cp>0)marks.push({k:'المنافسون',v:cp,c:''});
+  if(wt>0)marks.push({k:'قبول العميل',v:wt,c:''});
+  marks.push({k:'الموصى به',v:rec,c:'rec'});
+  const vals=marks.map(m=>m.v), lo=Math.min(...vals)*.92, hi=Math.max(...vals)*1.08, span=hi-lo||1;
+  marks.sort((a,b)=>a.v-b.v);
+  const mhtml=marks.map((m,i)=>{
+    const pos=((m.v-lo)/span*100).toFixed(1);
+    return `<div class="mk ${i%2?'dn':'up'} ${m.c}" style="left:${pos}%"><b>${f(m.v)} ${cur}</b><br>${m.k}<i></i></div>`}).join('');
+
+  // التوصيات
+  const r=[];
+  if(floored)r.push(['b',`السعر المحسوب كان أقل من نقطة التعادل، لذلك رفعناه إلى ${f(floor)} ${cur} لحماية تكاليفك.`]);
+  if(wt>0&&wt<unitCost)r.push(['b','أقصى سعر يقبله العميل أقل من تكلفتك الكلية للوحدة. خفّض التكاليف أو أعد تصميم العرض قبل الإطلاق.']);
+  else if(wt>0&&rec>wt)r.push(['w','السعر الموصى به أعلى مما يقبله العميل. ابدأ بسعر أقرب إلى '+f(wt)+' '+cur+' أو أضف قيمة تبرر الفرق.']);
+  if(cp>0){
+    const d=(rec-cp)/cp*100;
+    if(d>15)r.push(['w',`سعرك أعلى من المنافسين بنحو ${f(d,0)}%. تحتاج ميزة واضحة تبرر ذلك (جودة، دعم، سرعة).`]);
+    else if(d<-15)r.push(['w',`سعرك أقل من المنافسين بنحو ${f(-d,0)}%. قد تخسر ربحًا كان يمكنك كسبه، أو يظن العميل أن الجودة أقل.`]);
+    else r.push(['g','سعرك قريب من السوق، وهذا يسهّل دخولك دون صدام سعري.']);
+  }
+  if(s.m<20)r.push(['b',`هامش الربح الفعلي ${f(s.m,0)}% منخفض ويترك مجالًا ضيقًا للخطأ. راجع التكاليف أو ارفع السعر.`]);
+  else if(s.m>=50)r.push(['g',`هامش الربح ${f(s.m,0)}% مريح. يمكنك استخدام جزء منه في التسويق أو في عروض الإطلاق.`]);
+  if(isFinite(be)){
+    if(be>un)r.push(['b',`تحتاج ${be} وحدة شهريًا للتعادل، وتتوقع ${un} فقط. ستخسر شهريًا بهذه الأرقام.`]);
+    else if(be>un*.7)r.push(['w',`نقطة التعادل ${be} وحدة وهي قريبة من توقعاتك (${un}). أي تراجع في المبيعات يعني خسارة.`]);
+    else r.push(['g',`تحتاج ${be} وحدة شهريًا للتعادل، وهذا أقل بكثير من توقعك (${un}).`]);
+  }
+  if($('type').value==='service')r.push(['','في الخدمات، احسب وقتك كتكلفة متغيرة (ساعات العمل × أجر الساعة) حتى لا يظهر الربح أكبر من حقيقته.']);
+  else r.push(['','في المنتجات، لا تنسَ الشحن والتغليف والمرتجعات ضمن التكلفة المتغيرة.']);
+
+  // حساسية السعر
+  const rows=[-10,0,10,20].map(pc=>{const x=scen(rec*(1+pc/100));
+    return `<tr><td>${pc>0?'+':''}${pc}%</td><td>${f(x.p)} ${cur}</td><td>${f(x.m,0)}%</td><td class="${x.profit>=0?'pos':'neg'}">${f(x.profit,0)} ${cur}</td></tr>`}).join('');
+
+  const title=$('name').value.trim();
+  out.innerHTML=`
+  <div class="hero"><div class="lbl">السعر الموصى به${title?' لـ '+title.replace(/[<>&]/g,''):''}</div><div class="price">${f(rec)} ${cur}</div></div>
+  <div class="ladder-box"><div class="ladder"><div class="bar"></div>${mhtml}</div></div>
+  <div class="kpis">
+    <div class="kpi"><span>التكلفة الكلية للوحدة</span><strong>${f(unitCost)} ${cur}</strong></div>
+    <div class="kpi"><span>هامش الربح الفعلي</span><strong class="${s.m>=0?'pos':'neg'}">${f(s.m,1)}%</strong></div>
+    <div class="kpi"><span>الربح الشهري المتوقع</span><strong class="${s.profit>=0?'pos':'neg'}">${f(s.profit,0)} ${cur}</strong></div>
+    <div class="kpi"><span>وحدات التعادل شهريًا</span><strong>${isFinite(be)?be:'غير ممكن'}</strong></div>
+  </div>
+  <h2>توصيات قبل الإطلاق</h2>
+  <ul class="recs">${r.map(x=>`<li class="${x[0]}">${x[1]}</li>`).join('')}</ul>
+  <h2 style="margin-top:20px">ماذا لو غيّرت السعر؟</h2>
+  <div class="wrapx"><table><thead><tr><th>التغيير</th><th>السعر</th><th>الهامش</th><th>الربح الشهري</th></tr></thead><tbody>${rows}</tbody></table></div>
+  <p class="note">الجدول يفترض ثبات عدد المبيعات. عمليًا، رفع السعر قد يقلل المبيعات.</p>
+  <p class="note">طريقة الحساب: السعر الموصى به متوسط مرجّح للسعر حسب الهامش (40%) وسعر المنافسين (30%) وقبول العميل (30%)، وإذا غاب أحدهما يُعاد توزيع الأوزان.</p>`;
+}
+ids.forEach(id=>$(id).addEventListener('input',calc));
+calc();
+</script>
+</body>
+</html>
